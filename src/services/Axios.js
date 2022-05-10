@@ -18,9 +18,10 @@ function getInstance() {
         return axiosInstance
     }
     axiosInstance = axios.create({
-        baseURL: process.env.REACT_APP_API_URL,
+        baseURL: "http://157.245.197.186:8889",
         headers: getHeaders()
     })
+
     //hook interceptor cài ở đây
     axiosInstance.interceptors.request.use(config => {
         const token = localStorage.getItem('token');
@@ -39,7 +40,8 @@ function getInstance() {
             window.location.href = '/login';
         }
         return Promise.reject(error);
-    })
+    });
+
     return axiosInstance;
 }
 

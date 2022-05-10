@@ -1,11 +1,10 @@
 import React, {useState} from 'react';
-import {Link,useNavigate} from "react-router-dom";
-import {createUserWithEmailAndPassword} from "firebase/auth";
-import {auth, db} from "../firebase";
-import {setDoc, doc, Timestamp} from "firebase/firestore";
+import {Link, useNavigate} from "react-router-dom";
+import {signup} from "../services/authServices";
 
 function Register() {
     const [data, setData] = useState({
+        username: '',
         name: '',
         email: '',
         password: '',
@@ -15,7 +14,7 @@ function Register() {
 
     const navigate = useNavigate();
 
-    const {name, email, password, error, loading} = data;
+    const {username, name, email, password, error, loading} = data;
     const handleChange = (e) => {
         setData({...data, [e.target.name]: e.target.value})
     };
@@ -27,18 +26,12 @@ function Register() {
             return;
         }
         try {
-            const result = await createUserWithEmailAndPassword(auth, email, password);
-            await setDoc(doc(db, 'users', result.user.uid), {
-                uid: result.user.uid,
-                name,
-                email,
-                createAt: Timestamp.fromDate(new Date()),
-                isOnline: true
-            });
-            setData({name: '', email: '', password: '', loading: false, error: null});
-            navigate('/');
+            const rep = await signup({username,name, email, password});
+            console.log(rep);
+            setData({username: '', name: '', email: '', password: '', loading: false, error: null});
+            navigate('/login');
         } catch (e) {
-            setData({...data, error: e.message, loading: false})
+            setData({...data, error: e, loading: false})
         }
     };
     return (
@@ -46,6 +39,8 @@ function Register() {
             <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
                 <form onSubmit={handleSubmit} className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
                     <h1 className="mb-8 text-3xl text-center">Sign up</h1>
+                    <input type="text" className="block border border-grey-light w-full p-3 rounded mb-4"
+                           name="username" value={username} onChange={handleChange} placeholder="User Name"/>
                     <input type="text" className="block border border-grey-light w-full p-3 rounded mb-4"
                            name="name" value={name} onChange={handleChange} placeholder="Name"/>
                     <input type="text" className="block border border-grey-light w-full p-3 rounded mb-4"
@@ -57,7 +52,7 @@ function Register() {
                     <button disabled={loading}
                             type="submit"
                             className="w-full text-center py-3 rounded bg-green-500 text-white hover:bg-gray-500 focus:outline-none my-1">
-                        {loading?'Loading...':'Sign up'}
+                        {loading ? 'Loading...' : 'Sign up'}
                     </button>
                     <div className="text-center text-sm text-grey-dark mt-4">
                         By signing up, you agree to the
