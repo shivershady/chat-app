@@ -2,13 +2,13 @@ import React, {useContext, useEffect, useState} from 'react';
 // import User from "../Components/User";
 // import Message from "./Message";
 import {getAllUser} from "../services/userServices";
-// import auth from "../context/auth";
+import {AuthContext} from "../context/auth";
 
 function Home() {
     const [users, setUsers] = useState([]);
     const [chatFriend, setChatFriend] = useState('');
     const [msgs, setMsgs] = useState([]);
-    // const {user} = useContext(auth);
+    const {user} = useContext(AuthContext);
 
     const handleUser = async () => {
         const rep = await getAllUser();
