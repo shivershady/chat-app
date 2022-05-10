@@ -28,7 +28,7 @@ function Login() {
             setData({username: '', password: '', loading: false, error: null});
             navigate('/');
         } catch (e) {
-            setData({...data, error: e.message, loading: false})
+            setData({...data, error: e.message  , loading: false})
         }
     };
     return (
@@ -37,7 +37,7 @@ function Login() {
                 <form onSubmit={handleSubmit} className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
                     <h1 className="mb-8 text-3xl text-center">Login</h1>
                     <input type="text" className="block border border-grey-light w-full p-3 rounded mb-4"
-                           name="username" value={username} onChange={handleChange} placeholder="Email"/>
+                           name="username" value={username} onChange={handleChange} placeholder="User Name"/>
                     <input type="password" className="block border border-grey-light w-full p-3 rounded mb-4"
                            name="password" value={password} onChange={handleChange} placeholder="Password"/>
                     {/*<input type="password" className="block border border-grey-light w-full p-3 rounded mb-4" name="confirm_password" value={name} onChange={handleChange} placeholder="Confirm Password" />*/}
@@ -50,7 +50,7 @@ function Login() {
                 </form>
                 <div className="text-grey-dark mt-6">
                     <Link className="no-underline border-b border-blue text-blue-400" to="/register">
-                        Sing up
+                        Sign up
                     </Link>.
                 </div>
             </div>

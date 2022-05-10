@@ -1,7 +1,5 @@
-import React , {useState ,useEffect} from 'react';
+import React  from 'react';
 import Avatar from '../assets/images/user.png';
-import { onSnapshot, doc } from "firebase/firestore";
-import {db} from "../firebase";
 
 function User({user, selectUser}) {
     return (

@@ -27,7 +27,6 @@ function Register() {
         }
         try {
             const rep = await signup({username,name, email, password});
-            console.log(rep);
             setData({username: '', name: '', email: '', password: '', loading: false, error: null});
             navigate('/login');
         } catch (e) {
